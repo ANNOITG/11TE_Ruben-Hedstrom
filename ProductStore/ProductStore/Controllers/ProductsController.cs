@@ -1,45 +1,66 @@
-﻿namespace ProductStore.Controllers
-{
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Web.Http;
-    using ProductStore.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using ProductStore.Models;
 
+namespace ProductStore.Controllers
+{
     public class ProductsController : ApiController
     {
-        private OrdersContext db = new OrdersContext();
+        static readonly IProductRepository repository = new ProductRepository();
 
-        // Project products to product DTOs.
-        private IQueryable<ProductDTO> MapProducts()
+        public IEnumerable<Product> GetAllProducts()
         {
-            return from p in db.Products
-                   select new ProductDTO() { Id = p.Id, Name = p.Name, Price = p.Price };
+            return repository.GetAll();
         }
 
-        public IEnumerable<ProductDTO> GetProducts()
+        public Product GetProduct(int id)
         {
-            return MapProducts().AsEnumerable();
-        }
-
-        public ProductDTO GetProduct(int id)
-        {
-            var product = (from p in MapProducts()
-                           where p.Id == 1
-                           select p).FirstOrDefault();
-            if (product == null)
+            Product item = repository.Get(id);
+            if (item == null)
             {
-                throw new HttpResponseException(
-                    Request.CreateResponse(HttpStatusCode.NotFound));
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-            return product;
+            return item;
         }
 
-        protected override void Dispose(bool disposing)
+        public IEnumerable<Product> GetProductsByCategory(string category)
         {
-            db.Dispose();
-            base.Dispose(disposing);
+            return repository.GetAll().Where(
+                p => string.Equals(p.Category, category, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public HttpResponseMessage PostProduct(Product item)
+        {
+            item = repository.Add(item);
+            var response = Request.CreateResponse<Product>(HttpStatusCode.Created, item);
+
+            string uri = Url.Link("DefaultApi", new { id = item.Id });
+            response.Headers.Location = new Uri(uri);
+            return response;
+        }
+
+        public void PutProduct(int id, Product product)
+        {
+            product.Id = id;
+            if (!repository.Update(product))
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+        }
+
+        public void DeleteProduct(int id)
+        {
+            Product item = repository.Get(id);
+            if (item == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            repository.Remove(id);
         }
     }
 }

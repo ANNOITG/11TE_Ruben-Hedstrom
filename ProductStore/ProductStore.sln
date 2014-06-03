@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductStore", "ProductStore\ProductStore.csproj", "{03AA496A-7D6C-446C-AFA4-88C3B0041278}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductStore", "ProductStore\ProductStore.csproj", "{232AAF5F-B3DD-4210-9809-3FBCA8D9AB23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{03AA496A-7D6C-446C-AFA4-88C3B0041278}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{03AA496A-7D6C-446C-AFA4-88C3B0041278}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{03AA496A-7D6C-446C-AFA4-88C3B0041278}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{03AA496A-7D6C-446C-AFA4-88C3B0041278}.Release|Any CPU.Build.0 = Release|Any CPU
+		{232AAF5F-B3DD-4210-9809-3FBCA8D9AB23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{232AAF5F-B3DD-4210-9809-3FBCA8D9AB23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{232AAF5F-B3DD-4210-9809-3FBCA8D9AB23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{232AAF5F-B3DD-4210-9809-3FBCA8D9AB23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

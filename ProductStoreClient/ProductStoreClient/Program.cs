@@ -16,29 +16,32 @@ namespace ProductStoreClient
     {
         static void Main()
         {
-            RunAsync().Wait();
+            Console.WriteLine("A to view, B to add");
+            ConsoleKey input = Console.ReadKey().Key;
+            Console.Clear();
+            switch (input)
+            {
+                case ConsoleKey.A:
+                    RunAsyncRead().Wait();
+                    break;
+                case ConsoleKey.B:
+                    RunAsyncPost().Wait();
+                    break;
+            }
+
             Console.ReadKey();
         }
 
-        static async Task RunAsync()
+        static async Task RunAsyncPost()
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:28433/");
+                client.BaseAddress = new Uri("http://localhost:40953/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                // HTTP GET
-                HttpResponseMessage response = await client.GetAsync("api/products/1");
-                if (response.IsSuccessStatusCode)
-                {
-                    Product product = await response.Content.ReadAsAsync<Product>();
-                    Console.WriteLine("{0}\t${1}\t{2}", product.Name, product.Price, product.Category);
-                }
-
-                // HTTP POST
                 var gizmo = new Product() { Name = "Gizmo", Price = 100, Category = "Widget" };
-                response = await client.PostAsJsonAsync("api/products", gizmo);
+                HttpResponseMessage response = await client.PostAsJsonAsync("api/products", gizmo);
                 if (response.IsSuccessStatusCode)
                 {
                     Uri gizmoUrl = response.Headers.Location;
@@ -50,6 +53,25 @@ namespace ProductStoreClient
                     // HTTP DELETE
                     response = await client.DeleteAsync(gizmoUrl);
                 }
+            }
+        }
+
+        static async Task RunAsyncRead()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:40953/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // HTTP GET
+                HttpResponseMessage response = await client.GetAsync("api/products/1");
+                if (response.IsSuccessStatusCode)
+                {
+                    Product product = await response.Content.ReadAsAsync<Product>();
+                    Console.WriteLine("{0}\t${1}\t{2}", product.Name, product.Price, product.Category);
+                }
+
             }
         }
     }
