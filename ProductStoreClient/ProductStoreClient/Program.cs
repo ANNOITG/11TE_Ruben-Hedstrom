@@ -16,7 +16,7 @@ namespace ProductStoreClient
     {
         static void Main()
         {
-            Console.WriteLine("A to view, B to add");
+            Console.WriteLine("Press A to view, press B to add");
             ConsoleKey input = Console.ReadKey().Key;
             Console.Clear();
             switch (input)
