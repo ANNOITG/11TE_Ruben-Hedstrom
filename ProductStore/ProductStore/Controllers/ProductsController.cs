@@ -43,9 +43,8 @@ namespace ProductStore.Controllers
             return response;
         }
 
-        public void PutProduct(int id, Product product)
+        public void PutProduct(Product product)
         {
-            product.Id = id;
             if (!repository.Update(product))
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
