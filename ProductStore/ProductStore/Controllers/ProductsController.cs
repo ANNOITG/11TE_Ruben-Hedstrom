@@ -17,14 +17,14 @@ namespace ProductStore.Controllers
             return repository.GetAll();
         }
 
-        public Product GetProduct(int id)
+        public List<Product> GetProduct(int id)
         {
-            Product item = repository.Get(id);
-            if (item == null)
+            List<Product> tempItems = repository.GetAll().ToList();
+            if (tempItems == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-            return item;
+            return tempItems;
         }
 
         public IEnumerable<Product> GetProductsByCategory(string category)
